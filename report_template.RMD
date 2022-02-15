@@ -1,0 +1,17 @@
+---
+title: "Repeat Test"
+author: "Stephen-test"
+output:
+  slidy_presentation:
+  font_adjustment: -1
+params:
+  docName: "test1"
+  iteration: 1
+  runvar: "preset"
+---
+  
+  ## Today's date: `r Sys.Date()`
+  
+  docName: `r params$docName`<br>
+iteration: `r params$iteration`<br>
+   runvar: `r params$runvar`<br>

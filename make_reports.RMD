@@ -1,0 +1,41 @@
+---
+title: "make_reports.RMD"
+author: "Stephen Shiring"
+output:
+  slidy_presentation:
+  font_adjustment: -1
+params:
+  start: 1
+  stop: 3
+  runvar: "TEA"
+---
+    
+## Today's date: `r Sys.Date()`<br>
+
+<b>runvar:</b> `r params$runvar`<br><br>
+
+Generating reports from <b>`r params$start`</b> to <b>`r params$stop`</b>.
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+
+rmd_file <- "report_template.RMD"
+
+# Generate list of expected output files
+lstOutputs <- list()
+for (i in seq(params$start, params$stop)) {
+  tmp <- paste(sprintf("report_%s.html", i))
+  lstOutputs <- append(lstOutputs, tmp)
+}
+
+# Tell rmarkdown what output files to expect
+rmarkdown::output_metadata$set(rsc_output_files = lstOutputs)
+
+# Generate each report
+for (i in seq(params$start,params$stop)) {
+  # Set report parameters
+  rmd_params = list(docName=paste0("test"), iteration=i, runvar=params$runvar)
+  
+  # Render using RMD file, parameters, and output filename. Render in a clean environment.
+  rmarkdown::render(rmd_file, params = rmd_params, output_file=lstOutputs[[i]], envir = new.env())
+}
+```
